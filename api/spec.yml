@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  description: Debitsam API
+  title: Debitsam
+  version: 1.0.0
+host: localhost:80
+produces:
+  - application/json
+consumes:
+  - application/json
+schemes:
+  - http
+securityDefinitions:
+  key:
+    type: apiKey
+    in: header
+    name: x-service-key
+security:
+  - key: []
+
+paths:
+  /health:
+    get:
+      summary: health check
+      tags:
+        - health-check
+      responses:
+        "200":
+          $ref: "#/responses/success"
+        "401":
+          $ref: "#/responses/unauthorized"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/baseResponse"
+
+definitions:
+  baseResponse:
+    type: object
+    properties:
+      error:
+        type: boolean
+        default: false
+        x-nullable: false
+      message:
+        type: string
+      data: 
+        type: object
+  
+
+responses:
+  ## success response
+  success:
+    description: the request to the server was successful
+    schema:
+      $ref: "#/definitions/baseResponse"
+  ## error response
+  unauthorized:
+    description: the client must be authenticated to perform this request
+    schema:
+      $ref: "#/definitions/baseResponse"
+
